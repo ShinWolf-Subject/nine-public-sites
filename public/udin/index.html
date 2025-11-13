@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #7e22ce, #3b82f6);
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+      color: #fff;
+    }
+    .dekorasi {
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      filter: blur(40px);
+      z-index: -1;
+    }
+    .dekorasi:nth-child(1) { top: 50px; left: 20px; }
+    .dekorasi:nth-child(2) { bottom: 50px; right: 30px; background: rgba(255,255,255,0.15); }
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      max-width: 400px;
+      margin: auto;
+      backdrop-filter: blur(6px);
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+    }
+    input {
+      padding: 10px;
+      margin: 5px;
+      width: 80px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border: none;
+      background-color: #9333ea;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #7e22ce;
+    }
+    #hasil {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+    }
+    #kalkulator {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="dekorasi"></div>
+  <div class="dekorasi"></div>
+
+  <div class="container" id="awal">
+    <h2>ilhammods official</h2>
+    <button onclick="masuk()">Masuk</button>
+  </div>
+
+  <div class="container" id="kalkulator">
+    <h1>Kalkulator</h1>
+    <input type="number" id="angka1" placeholder="Angka 1">
+    <input type="number" id="angka2" placeholder="Angka 2"><br>
+    <button onclick="tambah()">+</button>
+    <button onclick="kurang()">-</button>
+    <button onclick="kali()">*</button>
+    <button onclick="bagi()">/</button>
+    <button onclick="akar()">√</button>
+    <p id="hasil">Hasil muncul di sini 😎</p>
+  </div>
+
+  <script>
+    function masuk() {
+      document.getElementById("awal").style.display = "none";
+      document.getElementById("kalkulator").style.display = "block";
+    }
+
+    function ambilAngka() {
+      let a = parseFloat(document.getElementById("angka1").value) || 0;
+      let b = parseFloat(document.getElementById("angka2").value) || 0;
+      return [a, b];
+    }
+
+    function tampilkan(teks) {
+      document.getElementById("hasil").innerText = teks;
+    }
+
+    // ➕ Penjumlahan
+    function tambah() {
+      let [a, b] = ambilAngka();
+      let hasil = a + b;
+      if (hasil >= 1 && hasil <= 10) {
+        tampilkan("Kocak gitu aja gak tau 😹");
+      } else if (hasil > 10) {
+        tampilkan("Pikir aja sendiri, gw malas mikir 😴");
+      } else {
+        tampilkan("Hasil: " + hasil);
+      }
+    }
+
+    // ➖ Pengurangan
+    function kurang() {
+      let [a, b] = ambilAngka();
+      let hasil = a - b;
+      if (hasil >= 1 && hasil <= 20) {
+        tampilkan("Di sekolah ngapain aja lu 😹");
+      } else if (hasil > 20) {
+        tampilkan("Dah SMP, dah mau tamat, masih gak tau? 😹");
+      } else {
+        tampilkan("Hasil: " + hasil);
+      }
+    }
+
+    // ✖️ Perkalian
+    function kali() {
+      let [a, b] = ambilAngka();
+      let hasil = a * b;
+      if (hasil >= 1 && hasil <= 10) {
+        tampilkan("Hitung aja sendiri 😆");
+      } else if (hasil > 10) {
+        tampilkan("Gw aja gak tau wok 😹");
+      } else {
+        tampilkan("Hasil: " + hasil);
+      }
+    }
+
+    // ➗ Pembagian
+    function bagi() {
+      let [a, b] = ambilAngka();
+      if (b === 0) {
+        tampilkan("Lu mau ngebagi nol? Seriusan? 😭");
+        return;
+      }
+      let hasil = a / b;
+      if (hasil >= 1 && hasil <= 10) {
+        tampilkan("Lu sekolah cuman sampai gerbang ya? 😹");
+      } else if (hasil > 10) {
+        tampilkan("Aduh kurang info aku lek 🤭😹");
+      } else {
+        tampilkan("Hasil: " + hasil);
+      }
+    }
+
+    // √ Perakaran
+    function akar() {
+      let [a] = ambilAngka();
+      if (a >= 1 && a <= 10) {
+        tampilkan("Gak tau yah, makanya belajar 😱🥹😨😡😹");
+      } else if (a > 10) {
+        tampilkan("Jangan tanya gweh 🤭");
+      } else {
+        tampilkan("Hasil akar: " + Math.sqrt(a));
+      }
+    }
+  </script>
+</body>
+</html>
