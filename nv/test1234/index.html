@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Naga Ai | Cyberpunk v1.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:'Orbitron',monospace;
+            background:#000;color:#fff;
+            overflow:hidden;
+            height:100vh;
+            position:relative;
+        }
+        /* ===== SPLASH 🚀 + MATRIX RAIN ===== */
+        #splash{
+            position:fixed;inset:0;z-index:9999;
+            background:#000;
+            display:flex;align-items:center;justify-content:center;
+            animation:fadeOut 1.5s ease 2.5s forwards;
+        }
+        @keyframes fadeOut{to{opacity:0;visibility:hidden;}}
+        .rocket{
+            font-size:100px;
+            animation:launch 2s ease-out infinite alternate;
+            filter:drop-shadow(0 0 20px #00ffff)drop-shadow(0 0 40px #ff00ff);
+        }
+        @keyframes launch{
+            0%{transform:translateY(0) scale(1);}
+            100%{transform:translateY(-150px) scale(1.2);}
+        }
+        #particles{
+            position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;
+        }
+
+        /* ===== LOGIN CARD ===== */
+        .card{
+            position:relative;z-index:10;
+            background:rgba(0,0,0,.75);
+            backdrop-filter:blur(15px);
+            border:1px solid rgba(0,255,255,.4);
+            border-radius:20px;
+            padding:40px 30px;
+            max-width:420px;width:90%;
+            margin:auto;
+            box-shadow:0 0 40px rgba(0,255,255,.35),
+                       inset 0 0 20px rgba(0,255,255,.1);
+            animation:fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn{
+            from{opacity:0;transform:translateY(30px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+        h2{text-align:center;margin-bottom:25px;font-size:26px;font-weight:900;}
+        .neon{text-shadow:0 0 5px #00ffff,0 0 10px #00ffff,0 0 20px #00ffff;}
+        .neon-pink{text-shadow:0 0 5px #ff00ff,0 0 10px #ff00ff,0 0 20px #ff00ff;}
+        label{display:block;margin:12px 0 6px;font-size:12px;color:#00ffff;letter-spacing:1px;}
+        input,select{
+            width:100%;padding:12px 15px;
+            background:rgba(0,0,0,.6);
+            border:1px solid rgba(0,255,255,.5);
+            border-radius:8px;color:#fff;
+            font-family:'Orbitron',monospace;font-size:14px;
+            transition:.3s;
+        }
+        input:focus,select:focus{outline:none;border-color:#ff00ff;box-shadow:0 0 15px rgba(255,0,255,.5);}
+        button{
+            width:100%;padding:14px;margin-top:20px;
+            background:linear-gradient(45deg,#00ffff,#ff00ff);
+            border:none;border-radius:8px;color:#000;
+            font-family:'Orbitron',monospace;font-size:16px;font-weight:700;
+            cursor:pointer;transition:.3s;letter-spacing:1px;
+            position:relative;overflow:hidden;
+        }
+        button::after{
+            content:'';
+            position:absolute;top:50%;left:50%;
+            width:0;height:0;
+            background:rgba(255,255,255,.5);
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            transition:width .4s,height .4s;
+        }
+        button:active::after{
+            width:300px;height:300px;
+        }
+        button:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,255,255,.45);}
+        .alert{padding:12px;margin:15px 0;border-radius:8px;text-align:center;font-weight:700;}
+        .alert-error{background:rgba(255,0,0,.15);border:1px solid #ff0000;color:#ff0000;}
+        .alert-success{background:rgba(0,255,0,.15);border:1px solid #00ff00;color:#00ff00;}
+
+        /* ===== SUN & TORNADO ☀️🌀 ===== */
+        .sun-tornado{
+            width:120px;height:120px;margin:0 auto 20px;
+            position:relative;
+        }
+        .sun{
+            position:absolute;inset:0;
+            font-size:60px;
+            animation:sunRotate 4s linear infinite;
+            filter:drop-shadow(0 0 10px #ffa500)drop-shadow(0 0 20px #ff4500);
+        }
+        @keyframes sunRotate{
+            from{transform:rotate(0deg);}
+            to{transform:rotate(360deg);}
+        }
+        .tornado{
+            position:absolute;inset:0;
+            font-size:60px;
+            animation:tornadoSpin 2s ease-in-out infinite;
+            filter:drop-shadow(0 0 10px #00ffff)drop-shadow(0 0 20px #00ffff);
+        }
+        @keyframes tornadoSpin{
+            0%{transform:rotate(0deg) scale(1);}
+            50%{transform:rotate(180deg) scale(0.8);}
+            100%{transform:rotate(360deg) scale(1);}
+        }
+
+        /* ===== SECTIONS ===== */
+        .section{display:none;}
+        .section.active{display:block;}
+        .nav-buttons{display:flex;gap:12px;margin-top:25px;}
+        .nav-btn{
+            flex:1;padding:12px 6px;
+            background:rgba(0,0,0,.5);
+            border:1px solid rgba(0,255,255,.4);
+            border-radius:8px;color:#fff;text-decoration:none;text-align:center;
+            font-size:12px;transition:.3s;position:relative;overflow:hidden;
+        }
+        .nav-btn::after{
+            content:'';
+            position:absolute;top:50%;left:50%;
+            width:0;height:0;
+            background:rgba(255,255,255,.3);
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            transition:width .3s,height .3s;
+        }
+        .nav-btn:active::after{
+            width:200px;height:200px;
+        }
+        .nav-btn:hover{background:rgba(0,255,255,.15);box-shadow:0 0 15px rgba(0,255,255,.35);}
+        .info-table{width:100%;margin:20px 0;border-collapse:collapse;font-size:13px;}
+        .info-table td{padding:10px;border:1px solid rgba(0,255,255,.3);}
+        .info-table td:first-child{background:rgba(0,255,255,.1);color:#00ffff;width:38%;}
+        .link-btn{
+            display:block;width:100%;padding:14px;margin:12px 0;
+            background:rgba(0,0,0,.5);border:1px solid rgba(255,0,255,.4);
+            border-radius:8px;color:#fff;text-decoration:none;text-align:center;
+            font-size:13px;transition:.3s;position:relative;overflow:hidden;
+        }
+        .link-btn::after{
+            content:'';
+            position:absolute;top:50%;left:50%;
+            width:0;height:0;
+            background:rgba(255,255,255,.3);
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            transition:width .3s,height .3s;
+        }
+        .link-btn:active::after{
+            width:200px;height:200px;
+        }
+        .link-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(255,0,255,.35);}
+    </style>
+</head>
+<body>
+    <!-- SPLASH 🚀 -->
+    <div id="splash">
+        <div class="rocket">🚀</div>
+    </div>
+
+    <!-- Matrix Rain -->
+    <canvas id="particles"></canvas>
+
+    <!-- LOGIN -->
+    <div class="container">
+        <div id="loginSection" class="card">
+            <div style="text-align:center;font-size:60px;margin-bottom:15px;">🔒</div>
+            <h2 class="neon">NAGA AI v1.1</h2>
+            <p style="text-align:center;margin-bottom:20px;color:#00ffff;font-size:12px;">By Hasnan</p>
+            <form id="loginForm">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Masukkan Username">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Masukkan Password">
+                <div id="alertBox"></div>
+                <button type="submit" class="neon">LOGIN</button>
+            </form>
+        </div>
+
+        <!-- HOME ☀️🌀 -->
+        <div id="homeSection" class="card section">
+            <div class="sun-tornado">
+                <div class="sun">☀️</div>
+                <div class="tornado">🌀</div>
+            </div>
+            <h2 class="neon-pink">NAGA AI</h2>
+            <table class="info-table">
+                <tr><td>🐉 Informasi</td><td>Naga Ai</td></tr>
+                <tr><td>Version</td><td>1.1</td></tr>
+                <tr><td>Status</td><td class="neon">Buy, VVIP</td></tr>
+            </table>
+            <a href="https://vm.tiktok.com/ZSHvfXHABY4UH-V8GyZ/" class="link-btn" target="_blank">🔴 Join Tiktok Channel</a>
+            <a href="https://whatsapp.com/channel/0029Vb6Qh0TGU3BKYr3erA0p" class="link-btn" target="_blank">💚 Join Whatsapp Channel</a>
+            <div class="nav-buttons">
+                <a href="#" class="nav-btn" onclick="showSection('homeSection')">🏠 Home</a>
+                <a href="#" class="nav-btn" onclick="showSection('bugSection')">↩️ Bug WhatsApp</a>
+                <a href="#" class="nav-btn" onclick="showSection('ddosSection')">👾 DDoS</a>
+            </div>
+        </div>
+
+        <!-- BUG -->
+        <div id="bugSection" class="card section">
+            <div style="text-align:center;font-size:60px;margin-bottom:15px;">🐉</div>
+            <h2 class="neon-pink">BUG WHATSAPP</h2>
+            <label>Nomor Target</label>
+            <input type="text" id="bugTarget" placeholder="e.g: 628xxx">
+            <label>Pilihan Bug</label>
+            <select id="bugType">
+                <option value="">-- Pilih Bug --</option>
+                <option value="ios">IOS Crash iPhone</option>
+                <option value="android">Android ForceClose</option>
+                <option value="quantum">Quantum Stealth</option>
+                <option value="neural">Neural Crash</option>
+                <option value="system">System Overload</option>
+                <option value="grup">Grup Attack</option>
+            </select>
+            <div id="bugAlert"></div>
+            <button onclick="sendBug()" class="neon">SEND BUG</button>
+            <div class="nav-buttons">
+                <a href="#" class="nav-btn" onclick="showSection('homeSection')">🏠 Home</a>
+                <a href="#" class="nav-btn" onclick="showSection('bugSection')">↩️ Bug WhatsApp</a>
+                <a href="#" class="nav-btn" onclick="showSection('ddosSection')">👾 DDoS</a>
+            </div>
+        </div>
+
+        <!-- DDoS -->
+        <div id="ddosSection" class="card section">
+            <div style="text-align:center;font-size:60px;margin-bottom:15px;">🐉</div>
+            <h2 class="neon-pink">DDoS ATTACK</h2>
+            <label>Target URL</label>
+            <input type="text" id="ddosTarget" placeholder="Ex: https://example.com">
+            <label>Pilihan DDoS</label>
+            <select id="ddosType">
+                <option value="">-- Pilih Layer --</option>
+                <option value="physical">Physical Layer</option>
+                <option value="datalink">Data Link Layer</option>
+                <option value="network">Network Layer</option>
+                <option value="transport">Transport Layer</option>
+                <option value="session">Session Layer</option>
+                <option value="presentation">Presentation Layer</option>
+            </select>
+            <div id="ddosAlert"></div>
+            <button onclick="sendDDoS()" class="neon">> SEND DDoS</button>
+            <div class="nav-buttons">
+                <a href="#" class="nav-btn" onclick="showSection('homeSection')">🏠 Home</a>
+                <a href="#" class="nav-btn" onclick="showSection('bugSection')">↩️ Bug WhatsApp</a>
+                <a href="#" class="nav-btn" onclick="showSection('ddosSection')">👾 DDoS</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ===== MATRIX RAIN ===== */
+        const c=document.getElementById('particles'),ctx=c.getContext('2d');
+        let W=innerWidth,H=innerHeight;
+        c.width=W;c.height=H;
+        const chars="0123456789ABCDEFあいうえおカキクケコサシスセソタチツテトナニヌネノ010101".split("");
+        const drops=[];
+        for(let i=0;i<300;i++)drops[i]=Math.random()*H;
+        function drawMatrix(){
+            ctx.fillStyle='rgba(0,0,0,.05)';
+            ctx.fillRect(0,0,W,H);
+            ctx.fillStyle='#00ffff';
+            ctx.font='12px Orbitron';
+            for(let i=0;i<drops.length;i++){
+                const txt=chars[Math.floor(Math.random()*chars.length)];
+                ctx.fillText(txt,i*10,drops[i]);
+                if(drops[i]*Math.random()>H)drops[i]=0;
+                drops[i]+=10;
+            }
+        }
+        setInterval(drawMatrix,35);
+
+        /* ===== LOGIN ===== */
+        document.getElementById('loginForm').addEventListener('submit',e=>{
+            e.preventDefault();
+            const u=document.getElementById('username').value;
+            const p=document.getElementById('password').value;
+            const a=document.getElementById('alertBox');
+            if(!u||!p){a.innerHTML='<div class="alert alert-error">❗ Mohon Isi Username dan Password</div>';return}
+            if(u!=='Hasnan'){a.innerHTML='<div class="alert alert-error">❗ Maaf Username Yang Anda Masukkan Salah</div>';return}
+            if(p!=='Hasnan123'){a.innerHTML='<div class="alert alert-error">❗ Maaf Password Yang Anda Masukkan Salah</div>';return}
+            document.getElementById('loginSection').style.display='none';
+            showSection('homeSection');
+        });
+
+        /* ===== SECTION SWITCHER ===== */
+        function showSection(id){
+            document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        /* ===== BUG & DDoS HANDLERS ===== */
+        function sendBug(){
+            const t=document.getElementById('bugTarget').value;
+            const y=document.getElementById('bugType').value;
+            const a=document.getElementById('bugAlert');
+            if(!t||!y){a.innerHTML='<div class="alert alert-error">❗ Lengkapi field!</div>';return}
+            a.innerHTML='<div class="alert alert-success">✅ Berhasil Bug Terkirim</div>';
+            document.getElementById('bugTarget').value='';
+            document.getElementById('bugType').value='';
+        }
+        function sendDDoS(){
+            const t=document.getElementById('ddosTarget').value;
+            const y=document.getElementById('ddosType').value;
+            const a=document.getElementById('ddosAlert');
+            if(!t||!y){a.innerHTML='<div class="alert alert-error">❗ Lengkapi field!</div>';return}
+            a.innerHTML='<div class="alert alert-success">✅ DDoS Attack Terkirim</div>';
+            document.getElementById('ddosTarget').value='';
+            document.getElementById('ddosType').value='';
+        }
+    </script>
+</body>
+</html>
